@@ -1,6 +1,6 @@
 export let basketContainer = null;
-let basketBtnContainer;
 
+let basketBtnContainer;
 const headerNavbar = document.querySelector('.page-header__navbar');
 const createElement = ({ type, attrs, container = null }) => {
     const el = document.createElement(type);
@@ -122,6 +122,59 @@ const createBasketList = (container, arr) => {
             innerText: `Всего в корзине товаров на сумму ${sum.toFixed(2)}$`
         },
         container
+    });
+};
+
+const createStyle = () => {
+    createElement({
+        type: 'style',
+        attrs: {
+            innerText: `
+        .page-header__navbar {
+          position: relative;
+        }
+        
+        .basket__container {
+          background-color: rgb(150, 200, 241);
+          position: absolute;
+          padding: 10px;
+          bottom: 0;
+          right: 0;
+          transform: translateY(100%);
+          z-index: 1000;
+          border: 1px solid #2d8df3;
+          border-radius: 4px;
+        }
+        .basket__container p {
+          text-align: center;
+          font-size: 18px;
+        }
+        .basket__total {
+          margin: 10px auto 10px auto;
+          text-align: center;
+          font-size: 18px;
+        }
+        .basket__btn-container {
+          display: flex;
+          gap: 10px;
+        }
+        .basket__item-container {
+          display: flex;
+          gap: 10px;
+          justify-content: space-evenly;
+          border-bottom: 1px solid lightblue;
+        }
+        .basket__item-del {
+          display: block;
+          background-color: #007bff;
+          border: 1px solid #041c36;
+          padding: 5px 3px 0 3px;
+          cursor: pointer;
+          font-size: 10px;
+          border-radius: 2px;
+        }`
+        },
+        container: document.head
     });
 };
 

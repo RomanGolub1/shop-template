@@ -1,4 +1,3 @@
-import { get } from 'browser-sync';
 import {
     basketContainer,
     eraseBasket,
@@ -10,23 +9,19 @@ const contentContainer = document.querySelector('#content-container');
 const cartCounterLabel = document.querySelector('#cart-counter-label');
 const basketCartBtn = document.querySelector('.page-header__cart-btn')
 
-let cartCounter = 0;
-let cartPrice = 0;
+let cardPrice = 0;
 let cardCounter = 0;
 let restoreHTML = null;
+let productInBasketArr = null;
 
 const cartCounterLabelPrint = (c) => (c > 0) ? cartCounterLabel.innerHTML = `${c}` : cartCounterLabel.style.display = 'none';
 
 const incrementCounter = () => {
-    cartCounterLabel.innerHTML = `${++cartCounter}`;
-    if (cartCounter === 1) cartCounterLabel.style.display = 'block';
-    // if (cartCounter === 0) cartCounterLabel.style.display = 'none';
+    cartCounterLabelPrint(++cardCounter);
+    if (cardCounter === 1) cartCounterLabel.style.display = 'block';
 };
 
-const getMockData = (t) => +t.parentElement
-    .previousElementSibling
-    .innerHTML
-    .replace(/^\$(\d+)\s\D+(\d+).*$/, '$1.$2')
+const getMockData = (t) => +t.parentElement.previousElementSibling.innerHTML.replace(/^\$(\d+)\s\D+(\d+).*$/, '$1.$2')
 
 const getPrice = (t, price) => Math.round((price + getMockData(t)) * 100) / 100;
 
@@ -48,7 +43,7 @@ const writeProductToBasket = (t, arr) => {
     let product = {
         productName: getProductName(t),
         productCode: getProductName(t),
-        price: getMockDAte(t),
+        price: getMockData(t),
         count: 1,
         sum: getMockData(t)
     };
@@ -66,7 +61,7 @@ const writeProductToBasket = (t, arr) => {
     } else arr = [product];
 
     return arr;
-}
+};
 
 const btnClickHandler = (e) => {
     const target = e.target;
@@ -78,9 +73,11 @@ const btnClickHandler = (e) => {
 
         incrementCounter();
 
-        cartPrice = getPrice(target, cartPrice);
+        productInBasketArr = writeProductToBasket(target, productInBasketArr);
+
+        cardPrice = getPrice(target, cardPrice);
         restoreHTML = target.innerHTML;
-        target.innerHTML = `Added ${cartPrice.toFixed(2)} $`;
+        target.innerHTML = `Added ${cardPrice.toFixed(2)} $`;
         disableControls(target, btnClickHandler);
 
         setTimeout(() => {
@@ -104,7 +101,7 @@ const basketBtnHandler = (e) => {
             cardPrice = 0;
             productInBasketArr = null;
             cardCounter = 0;
-            cartCounterLabelPrint(cartCounter);
+            cartCounterLabelPrint(cardCounter);
         };
     };
 };
@@ -125,7 +122,7 @@ const delProductHandler = (e) => {
 
         while (b && i < productInBasketArr.lenght) {
             if (productInBasketArr[i].productCode === target.parentElement.dataset.code) {
-                cartPrice -= productInBasketArr[i].sum;
+                cardPrice -= productInBasketArr[i].sum;
                 cardCounter -= productInBasketArr[i].count;
 
                 productInBasketArr.splice(i, 1);
@@ -134,7 +131,7 @@ const delProductHandler = (e) => {
         };
         eraseBasket();
         createBasketWork(cardCounter, productInBasketArr);
-        cardCounterLabelPrint(cardCounter);
+        cartCounterLabelPrint(cardCounter);
     };
 };
 
