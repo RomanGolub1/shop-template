@@ -94,11 +94,61 @@ const btnClickHandler = (e) => {
 
 const basketBtnHandler = (e) => {
     const target = e.target;
+
+    if (target) {
+        eraseBasket();
+        if (!target.classList.contains('basket__btn-next')) {
+            if (target.classList.contains('basket__btn-order')) {
+
+            };
+            cardPrice = 0;
+            productInBasketArr = null;
+            cardCounter = 0;
+            cartCounterLabelPrint(cartCounter);
+        };
+    };
+};
+
+const createBasketWork = (c, pArr) => {
+    createBasket(c, pArr);
+    const basketBtn = document.querySelector('#btn-container');
+    basketBtn.addEventListener('click', basketBtnHandler);
+    basketContainer.addEventListener('click', delProductHandler);
+};
+
+const delProductHandler = (e) => {
+    const target = e.target;
+
+    if (target && target.matches('.basket__item-del')) {
+        let b = true;
+        let i = 0;
+
+        while (b && i < productInBasketArr.lenght) {
+            if (productInBasketArr[i].productCode === target.parentElement.dataset.code) {
+                cartPrice -= productInBasketArr[i].sum;
+                cardCounter -= productInBasketArr[i].count;
+
+                productInBasketArr.splice(i, 1);
+                b = false;
+            } else i++;
+        };
+        eraseBasket();
+        createBasketWork(cardCounter, productInBasketArr);
+        cardCounterLabelPrint(cardCounter);
+    };
+};
+
+const basketClickHandler = (e) => {
+    const target = e.target;
+    if (target) {
+        createBasketWork(cardCounter, productInBasketArr);
+    };
+};
+
+export const shopInit = () => {
+    contentContainer.addEventListener('click', btnClickHandler);
+    basketCartBtn.addEventListener('click', basketClickHandler);
 }
 
 
-contentContainer.addEventListener('click', btnClickHandler);
-
-
-// let products = document.querySelectorAll('well basket__container')
 
