@@ -5,14 +5,14 @@ import {
 } from './basket.js';
 
 
-const contentContainer = document.querySelector('#content-container');
 const cartCounterLabel = document.querySelector('#cart-counter-label');
+const contentContainer = document.querySelector('#content-container');
 const basketCartBtn = document.querySelector('.page-header__cart-btn')
 
-let cardPrice = 0;
 let cardCounter = 0;
-let restoreHTML = null;
 let productInBasketArr = null;
+let cardPrice = 0;
+let restoreHTML = null;
 
 const cartCounterLabelPrint = (c) => (c > 0) ? cartCounterLabel.innerHTML = `${c}` : cartCounterLabel.style.display = 'none';
 
@@ -21,7 +21,7 @@ const incrementCounter = () => {
     if (cardCounter === 1) cartCounterLabel.style.display = 'block';
 };
 
-const getMockData = (t) => +t.parentElement.previousElementSibling.innerHTML.replace(/^\$(\d+)\s\D+(\d+).*$/, '$1.$2')
+const getMockData = (t) => +t.parentElement.previousElementSibling.innerHTML.replace(/^\$(\d+)\s\D+(\d+).*$/i, '$1.$2');
 
 const getPrice = (t, price) => Math.round((price + getMockData(t)) * 100) / 100;
 
@@ -50,7 +50,7 @@ const writeProductToBasket = (t, arr) => {
     if (arr !== null) {
         let i = 0;
 
-        while ((item === null) && (i < arr.lenght)) {
+        while ((item === null) && (i < arr.length)) {
             (arr[i].productCode === getProductName(t)) ? item = i : i++
         };
         if (item === null) arr.push(product)
@@ -82,7 +82,9 @@ const btnClickHandler = (e) => {
 
         setTimeout(() => {
             target.innerHTML = restoreHTML;
+
             enableControls(target, btnClickHandler);
+
         }, interval);
 
     };
@@ -120,7 +122,7 @@ const delProductHandler = (e) => {
         let b = true;
         let i = 0;
 
-        while (b && i < productInBasketArr.lenght) {
+        while (b && i < productInBasketArr.length) {
             if (productInBasketArr[i].productCode === target.parentElement.dataset.code) {
                 cardPrice -= productInBasketArr[i].sum;
                 cardCounter -= productInBasketArr[i].count;

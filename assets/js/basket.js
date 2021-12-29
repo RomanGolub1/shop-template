@@ -189,3 +189,4 @@ export const createBasket = (count, productArr) => {
     createBasketBtn(count, basketContainer);
     createStyle();
 };
+
