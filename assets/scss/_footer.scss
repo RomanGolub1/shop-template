@@ -1,15 +1,14 @@
-
 .page-footer {
-  background-color: rgba($color-light, 0.8);
+    background-color: rgba($color-light, 0.8);
 
-  &__copyright {
-    padding-top: 30px;
-    padding-bottom: 30px;
+    &__copyright {
+        padding-top: 30px;
+        padding-bottom: 30px;
 
-    text-align: center;
+        text-align: center;
 
-    color: $color-dark;
+        color: $color-dark;
 
-    font-size: 1.25rem;
-  }
-}
+        font-size: 1.25rem;
+    }
+}
